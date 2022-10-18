@@ -11,7 +11,7 @@ public class Arena {
     public Arena(int width, int height){
         this.width = width;
         this.height = height;
-        hero = new Hero(new Position(10,10));
+        hero = new Hero(10,10);
         walls = createWalls();
     }
 
@@ -33,16 +33,16 @@ public class Arena {
     }
 
     public Position moveUp() {
-        return new Position(hero.position.getX(), hero.position.getY() - 1);
+        return new Position(hero.getPosition().getX(), hero.getPosition().getY() - 1);
     }
     public Position moveDown() {
-        return new Position(hero.position.getX(), hero.position.getY() + 1);
+        return new Position(hero.getPosition().getX(), hero.getPosition().getY() + 1);
     }
     public Position moveLeft() {
-        return new Position(hero.position.getX() - 1, hero.position.getY());
+        return new Position(hero.getPosition().getX() - 1, hero.getPosition().getY());
     }
     public Position moveRight() {
-        return new Position(hero.position.getX() + 1, hero.position.getY());
+        return new Position(hero.getPosition().getX() + 1, hero.getPosition().getY());
     }
 
     public void moveHero(Position position) {
@@ -75,20 +75,13 @@ public class Arena {
     private List<Wall> walls;
     private int width = 40, height = 20;
 
-    private class Hero {
-        public Hero(Position position){
-            this.position = position;
-        }
+    private class Hero extends Element{
+        public Hero(int x, int y){ super(x,y);}
 
         public void draw(TextGraphics graphics){
             graphics.setForegroundColor(TextColor.Factory.fromString("#E38C09"));
             graphics.enableModifiers(SGR.BOLD);
-            graphics.putString(new TerminalPosition(position.getX(), position.getY()),"H");
-        }
-        private Position position;
-
-        public void setPosition(Position position) {
-            this.position = position;
+            graphics.putString(new TerminalPosition(getPosition().getX(), getPosition().getY()),"H");
         }
     }
 

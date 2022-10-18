@@ -6,16 +6,14 @@ import com.googlecode.lanterna.graphics.TextGraphics;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Wall {
-    public Wall(int x, int y ){
-        position = new Position(x,y);
+public class Wall extends Element {
+    public Wall(int x, int y) {
+        super(x, y);
     }
 
-    public void draw(TextGraphics screen){
+    public void draw(TextGraphics screen) {
         screen.setForegroundColor(TextColor.Factory.fromString("#333366"));
         screen.enableModifiers(SGR.BOLD);
-        screen.putString(new TerminalPosition(position.getX(), position.getY()), "#");
+        screen.putString(new TerminalPosition(getPosition().getX(), getPosition().getY()), "#");
     }
-    public Position position;
-
 }
