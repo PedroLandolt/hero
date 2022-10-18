@@ -5,16 +5,19 @@ import com.googlecode.lanterna.graphics.TextGraphics;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
-public class Wall extends Element {
-    public Wall(int x, int y) {
+public class Coin extends Element{
+
+    public Coin(int x, int y) {
         super(x, y);
     }
 
+    @Override
     public void draw(TextGraphics graphics) {
-        graphics.setForegroundColor(TextColor.Factory.fromString("#333366"));
+        graphics.setForegroundColor(TextColor.Factory.fromString("#E3CD09"));
         graphics.enableModifiers(SGR.BOLD);
-        graphics.putString(new TerminalPosition(getPosition().getX(), getPosition().getY()), "#");
+        graphics.putString(new TerminalPosition(getPosition().getX(), getPosition().getY()), "o");
     }
 
     @Override
@@ -22,7 +25,7 @@ public class Wall extends Element {
         if(o == null || this.getClass() != o.getClass()) return false;
 
         return(this == o ||
-                this.getPosition().equals(((Wall) o).getPosition()));
+                this.getPosition().equals(((Coin) o).getPosition()));
 
     }
 }

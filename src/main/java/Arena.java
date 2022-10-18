@@ -5,6 +5,7 @@ import com.googlecode.lanterna.screen.Screen;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class Arena {
 
@@ -13,6 +14,7 @@ public class Arena {
         this.height = height;
         hero = new Hero(10,10);
         walls = createWalls();
+        coins = createCoins();
     }
 
     public void draw(TextGraphics graphics){
@@ -23,6 +25,9 @@ public class Arena {
 
         for (Wall wall : walls)
             wall.draw(graphics);
+
+        for(Coin coin : coins)
+            coin.draw(graphics);
     }
 
     public int getWidth(){
@@ -46,9 +51,10 @@ public class Arena {
     }
 
     public void moveHero(Position position) {
-        if(canHeroMove(position)){
+        if(canHeroMove(position))
             hero.setPosition(position);
-        }
+
+        retrieveCoins();
     }
 
     private boolean canHeroMove(Position position) {
@@ -70,16 +76,40 @@ public class Arena {
         return walls;
     }
 
+    private List<Coin> createCoins() {
+        Random random = new Random();
+        ArrayList<Coin> coins = new ArrayList<>();
+        for (int i = 0; i < 5; i++){
+            Coin ncoin = new Coin(random.nextInt(width - 2) + 1,
+                    random.nextInt(height - 2) + 1);
+            if(!coins.contains(ncoin) && !ncoin.getPosition().equals(hero.getPosition())){
+                coins.add(ncoin);
+            }
+        }
+        return coins;
+    }
+
+    private void retrieveCoins(){
+        for(Coin coin : coins){
+            if(hero.getPosition().equals(coin.getPosition())) {
+                coins.remove(coin);
+                break;
+            }
+        }
+    }
+
     private Hero hero;
 
     private List<Wall> walls;
+
+    private List<Coin> coins;
     private int width = 40, height = 20;
 
     private class Hero extends Element{
         public Hero(int x, int y){ super(x,y);}
 
         public void draw(TextGraphics graphics){
-            graphics.setForegroundColor(TextColor.Factory.fromString("#E38C09"));
+            graphics.setForegroundColor(TextColor.Factory.fromString("#E37D09"));
             graphics.enableModifiers(SGR.BOLD);
             graphics.putString(new TerminalPosition(getPosition().getX(), getPosition().getY()),"H");
         }
