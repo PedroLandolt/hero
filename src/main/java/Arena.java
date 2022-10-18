@@ -1,4 +1,5 @@
-import com.googlecode.lanterna.TextCharacter;
+import com.googlecode.lanterna.*;
+import com.googlecode.lanterna.graphics.TextGraphics;
 import com.googlecode.lanterna.screen.Screen;
 
 import java.io.IOException;
@@ -11,8 +12,11 @@ public class Arena {
         hero = new Hero(new Position(10,10));
     }
 
-    public void draw(Screen screen){
-        hero.draw(screen);
+    public void draw(TextGraphics graphics){
+        graphics.setBackgroundColor(TextColor.Factory.fromString("#1F1F1F"));
+        graphics.fillRectangle(new TerminalPosition(0, 0), new TerminalSize(width, height), ' ');
+
+        hero.draw(graphics);
     }
 
     public int getWidth(){
@@ -54,8 +58,10 @@ public class Arena {
             this.position = position;
         }
 
-        public void draw(Screen screen){
-            screen.setCharacter(position.getX(), position.getY(), TextCharacter.fromCharacter('H')[0]);
+        public void draw(TextGraphics graphics){
+            graphics.setForegroundColor(TextColor.Factory.fromString("#E38C09"));
+            graphics.enableModifiers(SGR.BOLD);
+            graphics.putString(new TerminalPosition(position.getX(), position.getY()),"H");
         }
         private Position position;
 
