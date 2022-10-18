@@ -25,11 +25,13 @@ public class Game {
         catch (IOException e){
             e.printStackTrace();
         }
+
+        arena = new Arena( 40, 20);
     }
 
     private void draw() throws IOException{
         screen.clear();
-        hero.draw(screen);
+        arena.draw(screen);
         screen.refresh();
     }
 
@@ -46,19 +48,13 @@ public class Game {
     private void processKey(KeyStroke key){
         System.out.println(key);
         switch (key.getKeyType()){
-            case ArrowUp -> moveHero(hero.moveUp());
-            case ArrowDown -> moveHero(hero.moveDown());
-            case ArrowLeft -> moveHero(hero.moveLeft());
-            case ArrowRight -> moveHero(hero.moveRight());
+            case ArrowUp -> arena.moveHero(arena.moveUp());
+            case ArrowDown -> arena.moveHero(arena.moveDown());
+            case ArrowLeft -> arena.moveHero(arena.moveLeft());
+            case ArrowRight -> arena.moveHero(arena.moveRight());
         }
     }
-
-    private void moveHero(Position position) {
-        hero.setPosition(position);
-    }
-    private int x = 10, y=10;
-
-    private Hero hero = new Hero(new Position(x,y));;
+    private Arena arena;
     private Screen screen;
 
 }
